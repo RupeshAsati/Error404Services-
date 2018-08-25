@@ -23,14 +23,29 @@ app.get('/employees', function (req, res) {
       console.log("ERR", err)
     })
 });
+
+app.get('/employees/id',function(req,res) {
+  connection.then(function(pool){
+    console.log(req.params.id)
+return pool.query('select * from tbl_error where id=?' ,[req.params.id])
+  })
   
-app.get('/employees/:id', function (req, res) {
-  console.log(req);
-  connection.query('select * from tbl_error where id=?', [req.params.id], function (error, results, fields) {
-    if (error) throw error;
-    res.end(JSON.stringify(results));
- });
+.then(function(data){
+res.send(json.stringify(data));
+})
+.catch(function(err){
+  console.log("Error",err) 
+  })
 });
+
+
+// app.get('/employees/:id', function (req, res) {
+//   console.log(req);
+//   connection.query('select * from tbl_error where id=?', [req.params.id], function (error, results, fields) {
+//     if (error) throw error;
+//     res.end(JSON.stringify(results));
+//  });
+// });
 
 //rest api to create a new record into sql database
 app.post('/employees', function (req, res) {

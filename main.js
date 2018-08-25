@@ -15,10 +15,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 //end body-parser configuration
 
-
 //rest api to get all results
 app.get('/employees', function (req, res) {
-
   connection
     .then(function (pool) {
       return pool.request().query('select * from tbl_error')
@@ -29,21 +27,14 @@ app.get('/employees', function (req, res) {
     .catch(function (err) {
       console.log("ERR", err)
     })
-
-  // connection.query('select * from tbl_error', function (error, results, fields) {
-  //   if (error) throw error;
-  //   res.setHeader('Content-Type', 'application/json');
-  //   res.send(JSON.stringify(results));
-  // });
 });
-
-//rest api to get a single employee data
+  
 app.get('/employees/:id', function (req, res) {
   console.log(req);
   connection.query('select * from tbl_error where id=?', [req.params.id], function (error, results, fields) {
     if (error) throw error;
     res.end(JSON.stringify(results));
-  });
+ });
 });
 
 //rest api to create a new record into sql database
